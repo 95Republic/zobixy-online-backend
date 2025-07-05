@@ -10,14 +10,16 @@ const http = require('http')
 const { userInfo } = require('os')
 const server = http.createServer(app)
 app.use(cors({
-    origin : ['http://localhost:3000','http://localhost:3001'],
+    origin : process.env.mode === 'prod' ? [process.env.client_customer_production_url,] : 
+    ['http://localhost:3000','http://localhost:3001'],
     credentials : true
 }))
 
 const io = socket(server, {
     cors: {
-        origin: '*',
-        credentials: true
+    origin: process.env.mode === 'prod' ? [process.env.client_customer_production_url,] : 
+    ['http://localhost:3000','http://localhost:3001'],
+    credentials: true
     }
 })
 
