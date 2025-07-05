@@ -29,7 +29,10 @@ class authControllers{
 
                     //adding created token to the cookies
                     res.cookie('accessToken',token, {
-                        expires : new Date(Date.now() + 7*24*60*60*1000)
+                        httpOnly: true,
+                        secure: true,
+                        sameSite: 'none',
+                        maxAge: 7 * 24 * 60 * 60 * 1000
                     })
                     
                     responseRouter(res,200,{token,message: "Login Success"})
@@ -85,7 +88,10 @@ class authControllers{
                 role: seller.role
             })
             res.cookie('accessToken', token, {
-                expires: new Date(Date.now() + 7*24*60*60*1000) //expires within 7 days
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                maxAge: 7 * 24 * 60 * 60 * 1000 //expires within 7 days
             })
 
             responseRouter(res,201,{token,message: 'Registration Successful'})  
