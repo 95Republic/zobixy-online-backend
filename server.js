@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -13,11 +14,12 @@ const allowedOrigins = process.env.mode === 'prod'
 ? [process.env.client_customer_production_url, process.env.client_admin_prod_url] 
 : ['http://localhost:3000','http://localhost:3001'];
 
-console.log("ALLOWED ORIGINS: " + allowedOrigins)
-console.log("MODE: " + process.env.mode)
+console.log("ALLOWED ORIGINS: ",allowedOrigins)
+console.log("MODE: ",process.env.mode)
 
 app.use(cors({
 origin: function (origin, callback){
+    console.log('Request Origin:', origin);
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -164,9 +166,6 @@ io.on('connection', (soc) => {
     })
 
 })
-
-
-require('dotenv').config()
 
 
 app.use(bodyParser.json())
