@@ -7,18 +7,19 @@ const { dbConnect } = require('./utilities/db')
 
 const socket = require('socket.io')
 const http = require('http')
-const { userInfo } = require('os')
 const server = http.createServer(app)
 
-const allowedOrigins = process.env.mode === 'prod' ? [process.env.client_customer_production_url,
-        process.env.client_admin_prod_url] : 
-        ['http://localhost:3000','http://localhost:3001'];
+const allowedOrigins = process.env.mode === 'prod' 
+? [process.env.client_customer_production_url, process.env.client_admin_prod_url] 
+: ['http://localhost:3000','http://localhost:3001'];
 
+console.log("ALLOWED ORIGINS: " + allowedOrigins)
+console.log("MODE: " + process.env.mode)
 
 app.use(cors({
-    origin: function (origin, callback){
+origin: function (origin, callback){
         if (!origin || allowedOrigins.includes(origin)) {
-            callback(null,true);
+            callback(null, true);
         } else {
             callback(new Error('ERROR: Not allowed by CORS'))
         }
@@ -27,7 +28,7 @@ app.use(cors({
 }));
 
 const io = socket(server, {
-    cors: {
+cors: {
         origin: function (origin,callback){
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null,true); 
